@@ -2479,8 +2479,13 @@ llvm::Value *CodeGenFunction::GetVTablePtr(Address This,
   CGM.DecorateInstructionWithTBAA(VTable, CGM.getTBAAInfoForVTablePtr());
 
   if (CGM.getCodeGenOpts().OptimizationLevel > 0 &&
-      CGM.getCodeGenOpts().StrictVTablePointers)
+      CGM.getCodeGenOpts().StrictVTablePointers) {
     CGM.DecorateInstructionWithInvariantGroup(VTable, RD);
+    auto *MD = llvm::MDNode::get(getLLVMContext(),
+                                 llvm::ConstantAsMetadata::get(llvm::ConstantInt::get(
+      llvm::Type::getInt64Ty(getLLVMContext()), 8))); // TODO
+    VTable->setMetadata(llvm::LLVMContext::MD_dereferenceable, MD);
+  }
 
   return VTable;
 }
