@@ -1,5 +1,6 @@
 // RUN: %clang_cc1 -triple x86_64-win32 -fdeclspec -verify %s
 // RUN: %clang_cc1 -triple x86_64-mingw32 -verify %s
+// RUN: %clang_cc1 -triple x86_64-unknown-linux -verify -fms-extensions %s
 
 extern __declspec(selectany) const int x1 = 1; // no warning, const means we need extern in C++
 
