@@ -2659,6 +2659,23 @@ static void GenerateTargetSpecificAttrChecks(const Record *R,
     }
     Test += ")";
   }
+
+  // If one or more CXX ABIs are specified, check those as well.
+  if (!R->isValueUnset("ObjectFormats")) {
+    Test += " && (";
+    std::vector<StringRef> ObjectFormats =
+        R->getValueAsListOfStrings("ObjectFormats");
+    for (auto I = ObjectFormats.begin(), E = ObjectFormats.end(); I != E; ++I) {
+      StringRef Part = *I;
+      Test += "T.getObjectFormat() == llvm::Triple::";
+      Test += Part;
+      if (I + 1 != E)
+        Test += " || ";
+      if (FnName)
+        *FnName += Part;
+    }
+    Test += ")";
+  }
 }
 
 static void GenerateHasAttrSpellingStringSwitch(

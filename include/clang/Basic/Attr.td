@@ -261,6 +261,7 @@ class TargetArch<list<string> arches> {
   list<string> Arches = arches;
   list<string> OSes;
   list<string> CXXABIs;
+  list<string> ObjectFormats;
 }
 def TargetARM : TargetArch<["arm", "thumb", "armeb", "thumbeb"]>;
 def TargetAVR : TargetArch<["avr"]>;
@@ -273,6 +274,10 @@ def TargetWindows : TargetArch<["x86", "x86_64", "arm", "thumb"]> {
 }
 def TargetMicrosoftCXXABI : TargetArch<["x86", "x86_64", "arm", "thumb"]> {
   let CXXABIs = ["Microsoft"];
+}
+def TargetWindowsAndLinux : TargetArch<["x86", "x86_64", "arm", "thumb"]> {
+  let OSes = ["Win32", "Linux"];
+  let ObjectFormats = ["COFF", "ELF"];
 }
 
 // Attribute subject match rules that are used for #pragma clang attribute.
@@ -2449,7 +2454,7 @@ def DLLImport : InheritableAttr, TargetSpecificAttr<TargetWindows> {
   let Documentation = [DLLImportDocs];
 }
 
-def SelectAny : InheritableAttr {
+def SelectAny : InheritableAttr, TargetSpecificAttr<TargetWindowsAndLinux> {
   let Spellings = [Declspec<"selectany">, GCC<"selectany">];
   let Documentation = [Undocumented];
 }
