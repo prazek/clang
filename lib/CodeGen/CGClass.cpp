@@ -2479,7 +2479,8 @@ llvm::Value *CodeGenFunction::GetVTablePtr(Address This,
   CGM.DecorateInstructionWithTBAA(VTable, CGM.getTBAAInfoForVTablePtr());
 
   if (CGM.getCodeGenOpts().OptimizationLevel > 0 &&
-      CGM.getCodeGenOpts().StrictVTablePointers)
+    (CGM.getCodeGenOpts().StrictVTablePointers ||
+      CGM.getCodeGenOpts().LameVTablePointers))
     CGM.DecorateInstructionWithInvariantGroup(VTable, RD);
 
   return VTable;

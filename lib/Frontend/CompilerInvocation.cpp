@@ -628,6 +628,8 @@ static bool ParseCodeGenArgs(CodeGenOptions &Opts, ArgList &Args, InputKind IK,
   Opts.StrictEnums = Args.hasArg(OPT_fstrict_enums);
   Opts.StrictReturn = !Args.hasArg(OPT_fno_strict_return);
   Opts.StrictVTablePointers = Args.hasArg(OPT_fstrict_vtable_pointers);
+  Opts.LameVTablePointers = Args.hasArg(OPT_flame_vtable_pointers);
+
   Opts.UnsafeFPMath = Args.hasArg(OPT_menable_unsafe_fp_math) ||
                       Args.hasArg(OPT_cl_unsafe_math_optimizations) ||
                       Args.hasArg(OPT_cl_fast_relaxed_math);

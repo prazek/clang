@@ -1390,6 +1390,11 @@ def fstrict_vtable_pointers: Flag<["-"], "fstrict-vtable-pointers">,
   Group<f_Group>, Flags<[CC1Option]>,
   HelpText<"Enable optimizations based on the strict rules for overwriting "
              "polymorphic C++ objects">;
+
+def flame_vtable_pointers: Flag<["-"], "flame-vtable-pointers">,
+  Group<f_Group>, Flags<[CC1Option]>,
+  HelpText<"Enable optimizations based bla bla bla on the strict rules for overwriting "
+             "polymorphic C++ objects">;
 def fstrict_overflow : Flag<["-"], "fstrict-overflow">, Group<f_Group>;
 def fsyntax_only : Flag<["-"], "fsyntax-only">,
   Flags<[DriverOption,CoreOption,CC1Option]>, Group<Action_Group>;
