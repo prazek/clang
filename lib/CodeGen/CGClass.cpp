@@ -2477,10 +2477,11 @@ llvm::Value *CodeGenFunction::GetVTablePtr(Address This,
   Address VTablePtrSrc = Builder.CreateElementBitCast(This, VTableTy);
   llvm::Instruction *VTable = Builder.CreateLoad(VTablePtrSrc, "vtable");
   CGM.DecorateInstructionWithTBAA(VTable, CGM.getTBAAInfoForVTablePtr());
+  VTable->setMetadata(llvm::LLVMContext::MD_vtable_load,
+                 llvm::MDNode::get(getLLVMContext(), {}));
 
   if (CGM.getCodeGenOpts().OptimizationLevel > 0 &&
-    (CGM.getCodeGenOpts().StrictVTablePointers ||
-      CGM.getCodeGenOpts().LameVTablePointers))
+      CGM.getCodeGenOpts().StrictVTablePointers)
     CGM.DecorateInstructionWithInvariantGroup(VTable, RD);
 
   return VTable;
