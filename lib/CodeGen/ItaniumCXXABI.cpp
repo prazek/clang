@@ -1647,7 +1647,9 @@ CGCallee ItaniumCXXABI::getVirtualFunctionPointer(CodeGenFunction &CGF,
     auto *VFuncLoad =
         CGF.Builder.CreateAlignedLoad(VFuncPtr, CGF.getPointerAlign());
 
-    VFuncLoad->setMetadata(llvm::LLVMContext::MD_vfunction_load, {});
+    VFuncLoad->setMetadata(llvm::LLVMContext::MD_vfunction_load,
+                           llvm::MDNode::get(CGM.getLLVMContext(),
+                                             llvm::ArrayRef<llvm::Metadata *>()));
     // Add !invariant.load md to virtual function load to indicate that
     // function didn't change inside vtable.
     // It's safe to add it without -fstrict-vtable-pointers, but it would not
